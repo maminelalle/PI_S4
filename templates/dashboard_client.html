@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Client Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+:root {
+  --accent-color: #28a745;
+  --accent-hover: #218838;
+  --sidebar-bg: #f8f9fa;
+  --sidebar-border: #ced4da;
+  --text-color: #212529;
+  --muted-color: #6c757d;
+  --card-bg: #ffffff;
+  --card-border: #dee2e6;
+}
+
+body {
+  background-color: white;
+  color: var(--text-color);
+  font-family: 'Roboto Mono', monospace;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-right: 1px solid var(--sidebar-border);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15px;
+}
+
+.sidebar-top {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+}
+
+.nav {
+  width: 100%;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-item {
+  width: 100%;
+  text-align: center;
+}
+
+.nav-link {
+  color: var(--text-color);
+  font-size: 1rem;
+  padding: 12px 20px;
+  display: block;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s;
+  border-radius: 10px;
+}
+
+.nav-link i {
+  margin-right: 8px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.btn-link-style {
+  background: none;
+  border: none;
+  color: var(--muted-color);
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-link-style:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 40px;
+  width: calc(100% - 250px);
+  background-color: white;
+  color: var(--text-color);
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card-header {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 0.5rem;
+}
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">SaharaTalents</div>
+    </div>
+    <ul class="nav flex-column mt-4 w-100">
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'dashboard_client' %}">
+          <i class="fas fa-home"></i> Accueil
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_create_job' %}">
+          <i class="fas fa-bullhorn"></i> Publier une offre
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_job_list' %}">
+          <i class="fas fa-list"></i> Mes offres
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_messages' %}">
+          <i class="fas fa-envelope"></i> Messagerie
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_profile' %}">
+          <i class="fas fa-building"></i> Mon entreprise
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_reviews' %}">
+          <i class="fas fa-star"></i> Évaluations
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_resources' %}">
+          <i class="fas fa-paperclip"></i> Ressources
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_payments' %}">
+          <i class="fas fa-money-check-alt"></i> Paiements
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_settings' %}">
+          <i class="fas fa-cog"></i> Mon compte
+        </a>
+      </li>
+      <li class="nav-item">
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="nav-link btn-link-style">
+            <i class="fas fa-sign-out-alt"></i> Se déconnecter
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h2>Bienvenue {{ request.user.company_name }}</h2>
+    <p>Ce tableau de bord vous permet de gérer vos projets, suivre les candidatures et interagir avec les freelancers.</p>
+  </div>
+
+</body>
+</html>
