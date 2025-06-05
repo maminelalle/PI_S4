@@ -1,0 +1,273 @@
+<div class="message-container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Conversations</h5>
+          <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#newMessageModal">
+            <i class="fas fa-plus me-1"></i> Nouveau
+          </button>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action active">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                <div>
+                  <h6 class="mb-1">Jean Dupont</h6>
+                  <small class="text-white-80">Développement site e-commerce</small>
+                </div>
+                <span class="badge bg-white text-primary rounded-pill ms-auto">3</span>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                <div>
+                  <h6 class="mb-1">Marie Lambert</h6>
+                  <small class="text-muted">Design logo entreprise</small>
+                </div>
+                <span class="badge bg-light text-muted rounded-pill ms-auto">1</span>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                <div>
+                  <h6 class="mb-1">Thomas Martin</h6>
+                  <small class="text-muted">Rédaction articles de blog</small>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                <div>
+                  <h6 class="mb-1">Sophie Bernard</h6>
+                  <small class="text-muted">Application mobile iOS</small>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+            <div>
+              <h5 class="mb-0">Jean Dupont</h5>
+              <small class="text-muted">Développement site e-commerce</small>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-outline-secondary me-2">
+              <i class="fas fa-phone-alt"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary">
+              <i class="fas fa-video"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="card-body message-thread" style="height: 400px; overflow-y: auto;">
+          <!-- Message received -->
+          <div class="message received mb-3">
+            <div class="message-content bg-light p-3 rounded">
+              <p class="mb-1">Bonjour, j'ai bien reçu vos spécifications pour le site e-commerce. J'ai quelques questions concernant le système de paiement que vous souhaitez intégrer.</p>
+              <small class="text-muted">10:24 AM - 15/06/2023</small>
+            </div>
+          </div>
+          
+          <!-- Message sent -->
+          <div class="message sent mb-3">
+            <div class="message-content bg-primary text-white p-3 rounded">
+              <p class="mb-1">Bonjour Jean, merci pour votre retour. Nous souhaitons intégrer Stripe comme solution de paiement principal, avec PayPal en option. Quelles informations supplémentaires avez-vous besoin ?</p>
+              <small class="text-white-80">10:35 AM - 15/06/2023</small>
+            </div>
+          </div>
+          
+          <!-- Message received -->
+          <div class="message received mb-3">
+            <div class="message-content bg-light p-3 rounded">
+              <p class="mb-1">Merci pour ces précisions. Avez-vous déjà un compte Stripe ou faut-il que je le configure ? Aussi, avez-vous des préférences particulières pour le design du processus de paiement ?</p>
+              <small class="text-muted">11:02 AM - 15/06/2023</small>
+            </div>
+          </div>
+          
+          <!-- Message sent -->
+          <div class="message sent mb-3">
+            <div class="message-content bg-primary text-white p-3 rounded">
+              <p class="mb-1">Nous avons déjà un compte Stripe professionnel. Pour le design, nous aimerions qu'il soit cohérent avec le reste du site. Je vous envoie par email nos directives graphiques.</p>
+              <small class="text-white-80">11:20 AM - 15/06/2023</small>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-footer bg-white">
+          <form class="d-flex align-items-center">
+            <input type="text" class="form-control me-2" placeholder="Écrivez votre message...">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Message Modal -->
+<div class="modal fade" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newMessageModalLabel">Nouveau message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient" class="form-label">Destinataire</label>
+            <select class="form-select" id="recipient">
+              <option selected>Sélectionnez un freelancer</option>
+              <option>Jean Dupont</option>
+              <option>Marie Lambert</option>
+              <option>Thomas Martin</option>
+              <option>Sophie Bernard</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="project" class="form-label">Projet concerné</label>
+            <select class="form-select" id="project">
+              <option selected>Sélectionnez un projet</option>
+              <option>Développement site e-commerce</option>
+              <option>Design logo entreprise</option>
+              <option>Rédaction articles de blog</option>
+              <option>Application mobile iOS</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="messageText" class="form-label">Message</label>
+            <textarea class="form-control" id="messageText" rows="5"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.message-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.list-group-item {
+  border-left: none;
+  border-right: none;
+  padding: 15px;
+  transition: all 0.2s;
+}
+
+.list-group-item:first-child {
+  border-top: none;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+.list-group-item.active {
+  background-color: #28a745;
+  border-color: rgba(0,0,0,0.1);
+}
+
+.message-thread {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.message {
+  max-width: 80%;
+}
+
+.message.received {
+  margin-right: auto;
+}
+
+.message.sent {
+  margin-left: auto;
+}
+
+.message-content {
+  position: relative;
+}
+
+.message.sent .message-content:after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-left-color: #28a745;
+  border-right: 0;
+}
+
+.message.received .message-content:after {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: #f8f9fa;
+  border-left: 0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Scroll to bottom of message thread
+  const messageThread = document.querySelector('.message-thread');
+  messageThread.scrollTop = messageThread.scrollHeight;
+  
+  // Handle new message form submission
+  const messageForm = document.querySelector('.card-footer form');
+  messageForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const input = this.querySelector('input');
+    const messageText = input.value.trim();
+    
+    if (messageText) {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateString = now.toLocaleDateString();
+      
+      const newMessage = `
+        <div class="message sent mb-3">
+          <div class="message-content bg-primary text-white p-3 rounded">
+            <p class="mb-1">${messageText}</p>
+            <small class="text-white-80">${timeString} - ${dateString}</small>
+          </div>
+        </div>
+      `;
+      
+      messageThread.insertAdjacentHTML('beforeend', newMessage);
+      input.value = '';
+      messageThread.scrollTop = messageThread.scrollHeight;
+    }
+  });
+});
+</script>

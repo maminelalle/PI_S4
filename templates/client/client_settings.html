@@ -1,0 +1,476 @@
+{% extends "dashboard_client.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Paramètres du compte</h1>
+    <button class="btn btn-success" id="saveAllSettings">
+      <i class="fas fa-save me-1"></i> Enregistrer tout
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <!-- Profile Picture Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Photo de profil</h6>
+        </div>
+        <div class="card-body text-center">
+          <div class="profile-picture-container mb-3">
+            <img src="https://via.placeholder.com/150" class="rounded-circle profile-picture" width="150" height="150" alt="Profile">
+            <div class="profile-overlay">
+              <i class="fas fa-camera"></i>
+            </div>
+            <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+          </div>
+          <button class="btn btn-sm btn-outline-primary me-2" id="changePictureBtn">Changer</button>
+          <button class="btn btn-sm btn-outline-danger" id="removePictureBtn">Supprimer</button>
+          <small class="d-block text-muted mt-2">JPEG ou PNG, max 5MB</small>
+        </div>
+      </div>
+
+      <!-- Security Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Sécurité</h6>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Connexion sécurisée</label>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="twoFactorAuth" checked>
+              <label class="form-check-label" for="twoFactorAuth">Authentification à deux facteurs</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Sessions actives</label>
+            <div class="active-sessions">
+              <div class="session-item mb-2 p-2 border rounded">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-desktop me-2"></i> Chrome - Windows</span>
+                  <small class="text-muted">Maintenant</small>
+                </div>
+                <small class="text-muted">Paris, France • 192.168.1.1</small>
+              </div>
+              <div class="session-item p-2 border rounded">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-mobile-alt me-2"></i> Safari - iPhone</span>
+                  <small class="text-muted">Il y a 2 heures</small>
+                </div>
+                <small class="text-muted">Lyon, France • 192.168.1.2</small>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary w-100 mt-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+            Changer le mot de passe
+          </button>
+        </div>
+      </div>
+
+      <!-- Danger Zone Card -->
+      <div class="card shadow border-danger">
+        <div class="card-header py-3 bg-danger text-white">
+          <h6 class="m-0 font-weight-bold">Zone dangereuse</h6>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-outline-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#deactivateAccountModal">
+            Désactiver le compte
+          </button>
+          <button class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+            Supprimer définitivement le compte
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <!-- Personal Info Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Informations personnelles</h6>
+        </div>
+        <div class="card-body">
+          <form id="personalInfoForm">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="firstName" class="form-label">Prénom *</label>
+                <input type="text" class="form-control" id="firstName" value="Jean" required>
+              </div>
+              <div class="col-md-6">
+                <label for="lastName" class="form-label">Nom *</label>
+                <input type="text" class="form-control" id="lastName" value="Dupont" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="email" value="contact@entreprise.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Téléphone</label>
+              <input type="tel" class="form-control" id="phone" value="+33 1 23 45 67 89">
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">Adresse</label>
+              <textarea class="form-control" id="address" rows="2">123 Rue de Paris, 75001 Paris, France</textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Company Info Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Informations de l'entreprise</h6>
+        </div>
+        <div class="card-body">
+          <form id="companyInfoForm">
+            <div class="mb-3">
+              <label for="companyName" class="form-label">Nom de l'entreprise *</label>
+              <input type="text" class="form-control" id="companyName" value="Ma Société" required>
+            </div>
+            <div class="mb-3">
+              <label for="siret" class="form-label">Numéro SIRET</label>
+              <input type="text" class="form-control" id="siret" value="123 456 789 00012">
+            </div>
+            <div class="mb-3">
+              <label for="companyDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="companyDescription" rows="3">Nous sommes une entreprise spécialisée dans...</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="website" class="form-label">Site web</label>
+              <input type="url" class="form-control" id="website" value="https://www.masociete.com">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Preferences Card -->
+      <div class="card shadow">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Préférences</h6>
+        </div>
+        <div class="card-body">
+          <form id="preferencesForm">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="language" class="form-label">Langue *</label>
+                <select class="form-select" id="language" required>
+                  <option value="fr" selected>Français</option>
+                  <option value="en">English</option>
+                  <option value="es">Español</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="timezone" class="form-label">Fuseau horaire *</label>
+                <select class="form-select" id="timezone" required>
+                  <option value="Europe/Paris" selected>(UTC+1) Paris</option>
+                  <option value="Europe/London">(UTC+0) London</option>
+                  <option value="America/New_York">(UTC-5) New York</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Notifications</label>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                <label class="form-check-label" for="emailNotifications">Email</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+                <label class="form-check-label" for="pushNotifications">Notifications push</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="smsNotifications">
+                <label class="form-check-label" for="smsNotifications">SMS</label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Préférences de communication</label>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="commPref" id="commEmail" checked>
+                <label class="form-check-label" for="commEmail">Email uniquement</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="commPref" id="commMixed">
+                <label class="form-check-label" for="commMixed">Email et notifications</label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordModalLabel">Changer le mot de passe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="passwordForm">
+          <div class="mb-3">
+            <label for="currentPassword" class="form-label">Mot de passe actuel *</label>
+            <input type="password" class="form-control" id="currentPassword" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">Nouveau mot de passe *</label>
+            <input type="password" class="form-control" id="newPassword" required>
+            <div class="password-strength mt-2">
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+              </div>
+              <small class="text-muted">Force du mot de passe: <span id="passwordStrengthText">Faible</span></small>
+            </div>
+            <div class="form-text">Minimum 8 caractères avec chiffres et lettres</div>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmer le mot de passe *</label>
+            <input type="password" class="form-control" id="confirmPassword" required>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">Mettre à jour</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Deactivate Account Modal -->
+<div class="modal fade" id="deactivateAccountModal" tabindex="-1" aria-labelledby="deactivateAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deactivateAccountModalLabel">Désactiver le compte</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir désactiver votre compte ? Vos informations seront conservées mais vous ne pourrez plus vous connecter.</p>
+        <p class="text-danger"><strong>Attention :</strong> Cette action est réversible mais nécessitera une confirmation par email.</p>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="confirmDeactivate">
+          <label class="form-check-label" for="confirmDeactivate">Je confirme vouloir désactiver mon compte</label>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-danger" id="confirmDeactivateBtn" disabled>Désactiver mon compte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAccountModalLabel">Supprimer définitivement le compte</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger"><strong>Attention : Cette action est irréversible !</strong></p>
+        <p>Toutes vos données, y compris les projets, messages et paiements, seront définitivement supprimés.</p>
+        <div class="mb-3">
+          <label for="deleteReason" class="form-label">Raison (optionnel)</label>
+          <select class="form-select" id="deleteReason">
+            <option value="">Sélectionnez une raison...</option>
+            <option>Je ne trouve pas de freelancers qualifiés</option>
+            <option>L'interface est trop complexe</option>
+            <option>Je préfère une autre plateforme</option>
+            <option>Autre raison</option>
+          </select>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="confirmDelete">
+          <label class="form-check-label" for="confirmDelete">Je comprends que cette action est irréversible</label>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn" disabled>Supprimer définitivement mon compte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.profile-picture-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.profile-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.profile-picture-container:hover .profile-overlay {
+  opacity: 1;
+}
+
+.profile-overlay i {
+  font-size: 1.5rem;
+}
+
+.form-switch .form-check-input {
+  width: 2.5em;
+  height: 1.5em;
+}
+
+.session-item {
+  transition: all 0.2s;
+}
+
+.session-item:hover {
+  background-color: #f8f9fa;
+}
+
+.card.border-danger {
+  border: 1px solid #dc3545 !important;
+}
+
+.password-strength .progress-bar {
+  transition: width 0.3s;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Profile picture change
+  const changePictureBtn = document.getElementById('changePictureBtn');
+  const removePictureBtn = document.getElementById('removePictureBtn');
+  const profilePictureInput = document.getElementById('profilePictureInput');
+  const profilePicture = document.querySelector('.profile-picture');
+
+  changePictureBtn.addEventListener('click', function() {
+    profilePictureInput.click();
+  });
+
+  profilePictureInput.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        toastr.error('Le fichier est trop volumineux (max 5MB)');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        profilePicture.src = event.target.result;
+        toastr.success('Photo de profil mise à jour');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removePictureBtn.addEventListener('click', function() {
+    profilePicture.src = 'https://via.placeholder.com/150';
+    toastr.success('Photo de profil supprimée');
+  });
+
+  // Password strength indicator
+  const newPassword = document.getElementById('newPassword');
+  const progressBar = document.querySelector('.password-strength .progress-bar');
+  const strengthText = document.getElementById('passwordStrengthText');
+
+  newPassword.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+    
+    // Length check
+    if (password.length >= 8) strength += 25;
+    if (password.length >= 12) strength += 25;
+    
+    // Complexity checks
+    if (/[A-Z]/.test(password)) strength += 15;
+    if (/[0-9]/.test(password)) strength += 15;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+    
+    // Update UI
+    progressBar.style.width = strength + '%';
+    
+    if (strength < 50) {
+      progressBar.className = 'progress-bar bg-danger';
+      strengthText.textContent = 'Faible';
+    } else if (strength < 75) {
+      progressBar.className = 'progress-bar bg-warning';
+      strengthText.textContent = 'Moyenne';
+    } else {
+      progressBar.className = 'progress-bar bg-success';
+      strengthText.textContent = 'Forte';
+    }
+  });
+
+  // Password form submission
+  const passwordForm = document.getElementById('passwordForm');
+  passwordForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+    
+    if (newPass !== confirmPass) {
+      toastr.error('Les mots de passe ne correspondent pas');
+      return;
+    }
+    
+    if (newPass.length < 8) {
+      toastr.error('Le mot de passe doit contenir au moins 8 caractères');
+      return;
+    }
+    
+    toastr.success('Mot de passe mis à jour avec succès');
+    $('#changePasswordModal').modal('hide');
+    passwordForm.reset();
+    progressBar.style.width = '0%';
+    strengthText.textContent = 'Faible';
+  });
+
+  // Account deactivation
+  const confirmDeactivate = document.getElementById('confirmDeactivate');
+  const confirmDeactivateBtn = document.getElementById('confirmDeactivateBtn');
+  
+  confirmDeactivate.addEventListener('change', function() {
+    confirmDeactivateBtn.disabled = !this.checked;
+  });
+  
+  confirmDeactivateBtn.addEventListener('click', function() {
+    toastr.success('Votre compte a été désactivé. Vous pouvez le réactiver en vous reconnectant.');
+    $('#deactivateAccountModal').modal('hide');
+  });
+
+  // Account deletion
+  const confirmDelete = document.getElementById('confirmDelete');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+  
+  confirmDelete.addEventListener('change', function() {
+    confirmDeleteBtn.disabled = !this.checked;
+  });
+  
+  confirmDeleteBtn.addEventListener('click', function() {
+    toastr.success('Votre compte sera supprimé dans les 24h. Un email de confirmation vous a été envoyé.');
+    $('#deleteAccountModal').modal('hide');
+  });
+
+  // Save all settings
+  document.getElementById('saveAllSettings').addEventListener('click', function() {
+    toastr.success('Tous les paramètres ont été enregistrés');
+  });
+});
+</script>
+{% endblock %}

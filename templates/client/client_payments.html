@@ -1,0 +1,275 @@
+{% extends "dashboard_client.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Ressources</h1>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadResourceModal">
+      <i class="fas fa-upload me-1"></i> Ajouter une ressource
+    </button>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-folder me-2"></i>Toutes les ressources</h6>
+      <div class="dropdown">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-filter me-1"></i>Filtrer
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
+          <li><a class="dropdown-item" href="#">Tous les types</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Documents</a></li>
+          <li><a class="dropdown-item" href="#">Images</a></li>
+          <li><a class="dropdown-item" href="#">Vidéos</a></li>
+          <li><a class="dropdown-item" href="#">Autres</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover" id="resourcesTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Type</th>
+              <th>Taille</th>
+              <th>Date d'ajout</th>
+              <th>Partagé avec</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-file-pdf text-danger me-2"></i>
+                  <span>Guide_utilisateur.pdf</span>
+                </div>
+              </td>
+              <td>PDF</td>
+              <td>2.4 MB</td>
+              <td>15/06/2023</td>
+              <td>
+                <span class="badge bg-light text-dark">Jean Dupont</span>
+                <span class="badge bg-light text-dark">+2</span>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <button class="btn btn-sm btn-outline-primary me-1" title="Télécharger">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary me-1" title="Partager">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-file-word text-primary me-2"></i>
+                  <span>Contrat_modèle.docx</span>
+                </div>
+              </td>
+              <td>Word</td>
+              <td>1.1 MB</td>
+              <td>10/06/2023</td>
+              <td>
+                <span class="badge bg-light text-dark">Marie Lambert</span>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <button class="btn btn-sm btn-outline-primary me-1" title="Télécharger">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary me-1" title="Partager">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-file-image text-success me-2"></i>
+                  <span>Logo_entreprise.png</span>
+                </div>
+              </td>
+              <td>Image</td>
+              <td>3.7 MB</td>
+              <td>05/06/2023</td>
+              <td>
+                <span class="badge bg-light text-dark">Tous</span>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <button class="btn btn-sm btn-outline-primary me-1" title="Télécharger">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary me-1" title="Partager">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-file-excel text-success me-2"></i>
+                  <span>Budget_projet.xlsx</span>
+                </div>
+              </td>
+              <td>Excel</td>
+              <td>850 KB</td>
+              <td>01/06/2023</td>
+              <td>
+                <span class="badge bg-light text-dark">Thomas Martin</span>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <button class="btn btn-sm btn-outline-primary me-1" title="Télécharger">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary me-1" title="Partager">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Resource Modal -->
+<div class="modal fade" id="uploadResourceModal" tabindex="-1" aria-labelledby="uploadResourceModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadResourceModalLabel">Ajouter une ressource</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="uploadForm">
+          <div class="mb-3">
+            <label for="resourceFile" class="form-label">Fichier *</label>
+            <input class="form-control" type="file" id="resourceFile" required>
+            <div class="form-text">Formats acceptés: PDF, DOC, XLS, JPG, PNG (max 10MB)</div>
+          </div>
+          <div class="mb-3">
+            <label for="resourceName" class="form-label">Nom de la ressource *</label>
+            <input type="text" class="form-control" id="resourceName" placeholder="Ex: Guide utilisateur" required>
+          </div>
+          <div class="mb-3">
+            <label for="resourceDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="resourceDescription" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Partager avec</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="shareAll">
+              <label class="form-check-label" for="shareAll">Tous les freelancers</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="shareJean">
+              <label class="form-check-label" for="shareJean">Jean Dupont</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="shareMarie">
+              <label class="form-check-label" for="shareMarie">Marie Lambert</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="shareThomas">
+              <label class="form-check-label" for="shareThomas">Thomas Martin</label>
+            </div>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">Téléverser</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+#resourcesTable tbody tr {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#resourcesTable tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.file-icon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize DataTable
+  $('#resourcesTable').DataTable({
+    responsive: true,
+    language: {
+      url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json"
+    },
+    columnDefs: [
+      { orderable: false, targets: [5] }
+    ]
+  });
+
+  // File upload form
+  const uploadForm = document.getElementById('uploadForm');
+  uploadForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fileInput = document.getElementById('resourceFile');
+    
+    if (fileInput.files.length === 0) {
+      toastr.error('Veuillez sélectionner un fichier');
+      return;
+    }
+    
+    const file = fileInput.files[0];
+    if (file.size > 10 * 1024 * 1024) { // 10MB
+      toastr.error('Le fichier est trop volumineux (max 10MB)');
+      return;
+    }
+    
+    toastr.success('Fichier téléversé avec succès');
+    $('#uploadResourceModal').modal('hide');
+    uploadForm.reset();
+  });
+
+  // Delete resource button
+  $('.btn-outline-danger').click(function(e) {
+    e.stopPropagation();
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette ressource ?')) {
+      $(this).closest('tr').fadeOut(300, function() {
+        $(this).remove();
+      });
+      toastr.success('Ressource supprimée');
+    }
+  });
+});
+</script>
+{% endblock %}
