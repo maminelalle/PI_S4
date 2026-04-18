@@ -1,0 +1,511 @@
+{% extends "dashboard_client.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Messagerie</h1>
+    <button class="btn btn-success" id="newConversationBtn">
+      <i class="fas fa-plus me-1"></i> Nouvelle conversation
+    </button>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-body p-0">
+      <div class="row g-0">
+         Sidebar Conversations 
+        <div class="col-md-4 border-end" style="height: 75vh; overflow-y: auto;">
+          <div class="p-3 border-bottom">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control border-start-0" placeholder="Rechercher une conversation...">
+            </div>
+          </div>
+          
+          <div class="conversation-list">
+            <!-- Conversation 1 (Active) -->
+            <div class="conversation-item active">
+              <div class="d-flex p-3 border-bottom">
+                <div class="flex-shrink-0">
+                  <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle" width="50" height="50" alt="Profile">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <div class="d-flex justify-content-between">
+                    <h6 class="mb-1">Jean Dupont</h6>
+                    <small class="text-muted">10:45</small>
+                  </div>
+                  <p class="mb-0 text-truncate">Je vous enverrai les maquettes ce soir</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Développement site e-commerce</small>
+                    <span class="badge bg-primary rounded-pill">3</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Conversation 2 -->
+            <div class="conversation-item">
+              <div class="d-flex p-3 border-bottom">
+                <div class="flex-shrink-0">
+                  <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="50" height="50" alt="Profile">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <div class="d-flex justify-content-between">
+                    <h6 class="mb-1">Marie Lambert</h6>
+                    <small class="text-muted">Hier</small>
+                  </div>
+                  <p class="mb-0 text-truncate">J'ai terminé la première version du logo</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Design logo entreprise</small>
+                    <span class="badge bg-primary rounded-pill">1</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Conversation 3 -->
+            <div class="conversation-item">
+              <div class="d-flex p-3 border-bottom">
+                <div class="flex-shrink-0">
+                  <img src="https://randomuser.me/api/portraits/men/75.jpg" class="rounded-circle" width="50" height="50" alt="Profile">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <div class="d-flex justify-content-between">
+                    <h6 class="mb-1">Thomas Martin</h6>
+                    <small class="text-muted">Lun.</small>
+                  </div>
+                  <p class="mb-0 text-truncate">Les articles sont prêts pour relecture</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Rédaction articles de blog</small>
+                    <i class="fas fa-check-double text-primary"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Conversation 4 -->
+            <div class="conversation-item">
+              <div class="d-flex p-3 border-bottom">
+                <div class="flex-shrink-0">
+                  <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle" width="50" height="50" alt="Profile">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <div class="d-flex justify-content-between">
+                    <h6 class="mb-1">Sophie Bernard</h6>
+                    <small class="text-muted">12/06</small>
+                  </div>
+                  <p class="mb-0 text-truncate">L'application a été soumise à l'App Store</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Application mobile iOS</small>
+                    <i class="fas fa-check-double text-muted"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="col-md-8 d-flex flex-column" style="height: 75vh;">
+          <!-- Chat Header -->
+          <div class="p-3 border-bottom d-flex align-items-center">
+            <div class="flex-shrink-0 me-3">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle" width="50" height="50" alt="Profile">
+            </div>
+            <div class="flex-grow-1">
+              <h5 class="mb-0">Jean Dupont</h5>
+              <small class="text-muted">Développement site e-commerce</small>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="chatDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="chatDropdown">
+                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Voir profil</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-phone me-2"></i>Appeler</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-video me-2"></i>Vidéo</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-ban me-2"></i>Bloquer</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Messages Area -->
+          <div class="flex-grow-1 p-3 overflow-auto" id="messagesArea">
+            <!-- Date Separator -->
+            <div class="text-center my-3">
+              <span class="badge bg-light text-dark">Aujourd'hui</span>
+            </div>
+            
+            <!-- Received Message -->
+            <div class="message received mb-3">
+              <div class="message-content bg-light p-3 rounded">
+                <p class="mb-1">Bonjour, j'ai bien reçu vos spécifications pour le site e-commerce. J'ai quelques questions concernant le système de paiement que vous souhaitez intégrer.</p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small class="text-muted">10:24 AM</small>
+                  <div class="message-status">
+                    <i class="fas fa-check-double text-primary"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Sent Message -->
+            <div class="message sent mb-3">
+              <div class="message-content bg-primary text-white p-3 rounded">
+                <p class="mb-1">Bonjour Jean, merci pour votre retour. Nous souhaitons intégrer Stripe comme solution de paiement principal, avec PayPal en option. Quelles informations supplémentaires avez-vous besoin ?</p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small class="text-white-80">10:35 AM</small>
+                  <div class="message-status">
+                    <i class="fas fa-check-double text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Received Message -->
+            <div class="message received mb-3">
+              <div class="message-content bg-light p-3 rounded">
+                <p class="mb-1">Merci pour ces précisions. Avez-vous déjà un compte Stripe ou faut-il que je le configure ? Aussi, avez-vous des préférences particulières pour le design du processus de paiement ?</p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small class="text-muted">11:02 AM</small>
+                  <div class="message-status">
+                    <i class="fas fa-check-double text-primary"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Sent Message -->
+            <div class="message sent mb-3">
+              <div class="message-content bg-primary text-white p-3 rounded">
+                <p class="mb-1">Nous avons déjà un compte Stripe professionnel. Pour le design, nous aimerions qu'il soit cohérent avec le reste du site. Je vous envoie par email nos directives graphiques.</p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small class="text-white-80">11:20 AM</small>
+                  <div class="message-status">
+                    <i class="fas fa-check-double text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Received Message with File -->
+            <div class="message received mb-3">
+              <div class="message-content bg-light p-3 rounded">
+                <div class="file-attachment mb-2">
+                  <div class="d-flex align-items-center p-2 border rounded">
+                    <i class="fas fa-file-pdf text-danger me-3 fa-2x"></i>
+                    <div class="flex-grow-1">
+                      <div class="fw-bold">Maquettes-site.pdf</div>
+                      <small class="text-muted">2.4 MB</small>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-outline-primary">
+                      <i class="fas fa-download"></i>
+                    </a>
+                  </div>
+                </div>
+                <p class="mb-1 mt-2">Voici les premières maquettes comme convenu.</p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small class="text-muted">11:45 AM</small>
+                  <div class="message-status">
+                    <i class="fas fa-check-double text-primary"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Message Input -->
+          <div class="p-3 border-top">
+            <form id="messageForm" class="d-flex align-items-center">
+              <div class="flex-grow-1 me-2 position-relative">
+                <input type="text" class="form-control rounded-pill" id="messageInput" placeholder="Écrivez un message..." autocomplete="off">
+                <div class="position-absolute end-0 top-0 h-100 d-flex align-items-center pe-3">
+                  <button type="button" class="btn btn-sm btn-link text-muted me-1" title="Ajouter un fichier">
+                    <i class="fas fa-paperclip"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-link text-muted" title="Émojis">
+                    <i class="far fa-smile"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary rounded-circle" style="width: 40px; height: 40px;">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Conversation Modal -->
+<div class="modal fade" id="newConversationModal" tabindex="-1" aria-labelledby="newConversationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newConversationModalLabel">Nouvelle conversation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="newConversationForm">
+          <div class="mb-3">
+            <label for="freelancerSelect" class="form-label">Freelancer *</label>
+            <select class="form-select" id="freelancerSelect" required>
+              <option value="">Sélectionnez un freelancer</option>
+              <option value="1">Jean Dupont (Développement site e-commerce)</option>
+              <option value="2">Marie Lambert (Design logo entreprise)</option>
+              <option value="3">Thomas Martin (Rédaction articles de blog)</option>
+              <option value="4">Sophie Bernard (Application mobile iOS)</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="initialMessage" class="form-label">Message initial</label>
+            <textarea class="form-control" id="initialMessage" rows="3"></textarea>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">Commencer la conversation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.conversation-list {
+  height: calc(100% - 60px);
+  overflow-y: auto;
+}
+
+.conversation-item {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.conversation-item:hover {
+  background-color: #f8f9fa;
+}
+
+.conversation-item.active {
+  background-color: #e9f5ff;
+}
+
+#messagesArea {
+  background-color: #f5f6fa;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e5e5e5' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.message {
+  max-width: 80%;
+}
+
+.message.received {
+  margin-right: auto;
+}
+
+.message.sent {
+  margin-left: auto;
+}
+
+.message-content {
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.message.sent .message-content {
+  background-color: #4e73df;
+  color: white;
+}
+
+.message.sent .message-content:after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-left-color: #4e73df;
+  border-right: 0;
+}
+
+.message.received .message-content:after {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: #f8f9fa;
+  border-left: 0;
+}
+
+.file-attachment {
+  max-width: 300px;
+}
+
+.message-status {
+  margin-left: 10px;
+}
+
+#messageInput {
+  padding-right: 80px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // New conversation modal
+  const newConversationBtn = document.getElementById('newConversationBtn');
+  newConversationBtn.addEventListener('click', function() {
+    $('#newConversationModal').modal('show');
+  });
+
+  // Conversation item click
+  $('.conversation-item').click(function() {
+    $('.conversation-item').removeClass('active');
+    $(this).addClass('active');
+    
+    // Simulate loading new conversation
+    $('#messagesArea').html(`
+      <div class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    `);
+    
+    setTimeout(() => {
+      // Replace with actual conversation content
+      $('#messagesArea').html(`
+        <div class="text-center my-3">
+          <span class="badge bg-light text-dark">Aujourd'hui</span>
+        </div>
+        <div class="message received mb-3">
+          <div class="message-content bg-light p-3 rounded">
+            <p class="mb-1">Bonjour, voici les dernières mises à jour concernant le projet.</p>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <small class="text-muted">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>
+              <div class="message-status">
+                <i class="fas fa-check-double text-primary"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+      scrollToBottom();
+    }, 800);
+  });
+
+  // Message form submission
+  const messageForm = document.getElementById('messageForm');
+  const messageInput = document.getElementById('messageInput');
+  
+  messageForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const messageText = messageInput.value.trim();
+    
+    if (messageText) {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      
+      // Add sent message
+      $('#messagesArea').append(`
+        <div class="message sent mb-3">
+          <div class="message-content bg-primary text-white p-3 rounded">
+            <p class="mb-1">${messageText}</p>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <small class="text-white-80">${timeString}</small>
+              <div class="message-status">
+                <i class="fas fa-check text-white"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+      
+      // Clear input
+      messageInput.value = '';
+      
+      // Scroll to bottom
+      scrollToBottom();
+      
+      // Simulate received message after delay
+      setTimeout(() => {
+        $('#messagesArea').append(`
+          <div class="message received mb-3">
+            <div class="message-content bg-light p-3 rounded">
+              <p class="mb-1">Merci pour votre message. Je vous répondrai dès que possible.</p>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <small class="text-muted">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>
+                <div class="message-status">
+                  <i class="fas fa-check-double text-primary"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        `);
+        scrollToBottom();
+        
+        // Update message status to "read"
+        setTimeout(() => {
+          $('.message.sent:last .message-status i').removeClass('fa-check').addClass('fa-check-double');
+        }, 1000);
+      }, 2000);
+    }
+  });
+
+  // File attachment click
+  $('.fa-paperclip').closest('button').click(function(e) {
+    e.preventDefault();
+    $('#messageInput').focus();
+    toastr.info('Fonctionnalité de fichier en développement');
+  });
+
+  // Emoji picker click
+  $('.fa-smile').closest('button').click(function(e) {
+    e.preventDefault();
+    $('#messageInput').focus();
+    toastr.info('Sélecteur d\'émojis en développement');
+  });
+
+  // Scroll to bottom of messages
+  function scrollToBottom() {
+    const messagesArea = document.getElementById('messagesArea');
+    messagesArea.scrollTop = messagesArea.scrollHeight;
+  }
+
+  // Initial scroll to bottom
+  scrollToBottom();
+
+  // New conversation form
+  $('#newConversationForm').submit(function(e) {
+    e.preventDefault();
+    const freelancer = $('#freelancerSelect').val();
+    
+    if (!freelancer) {
+      toastr.error('Veuillez sélectionner un freelancer');
+      return;
+    }
+    
+    toastr.success('Nouvelle conversation démarrée');
+    $('#newConversationModal').modal('hide');
+    $(this).trigger('reset');
+  });
+});
+</script>
+{% endblock %} 
+
+
+
+
+
+
+
+
+
+
+

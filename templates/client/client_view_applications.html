@@ -1,0 +1,180 @@
+{% extends "dashboard_client.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Candidatures reçues</h1>
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="projectDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-filter me-1"></i>Filtrer par projet
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="projectDropdown">
+        <li><a class="dropdown-item" href="#">Tous les projets</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Développement site e-commerce</a></li>
+        <li><a class="dropdown-item" href="#">Design logo entreprise</a></li>
+        <li><a class="dropdown-item" href="#">Rédaction articles de blog</a></li>
+        <li><a class="dropdown-item" href="#">Application mobile iOS</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                Candidatures totales</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">28</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-users fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                Candidatures en attente</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                Freelancers sélectionnés</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-list me-2"></i>Détail des candidatures</h6>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+          <i class="fas fa-sliders-h me-1"></i>Filtres avancés
+        </button>
+      </div>
+    </div>
+    <div class="collapse" id="filterCollapse">
+      <div class="card-body border-bottom">
+        <form class="row g-3">
+          <div class="col-md-3">
+            <label for="inputStatus" class="form-label">Statut</label>
+            <select id="inputStatus" class="form-select">
+              <option selected>Tous</option>
+              <option>En attente</option>
+              <option>En revue</option>
+              <option>Sélectionné</option>
+              <option>Rejeté</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="inputRating" class="form-label">Note minimum</label>
+            <select id="inputRating" class="form-select">
+              <option selected>Toutes</option>
+              <option>5 étoiles</option>
+              <option>4 étoiles et plus</option>
+              <option>3 étoiles et plus</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="inputDate" class="form-label">Date</label>
+            <select id="inputDate" class="form-select">
+              <option selected>Toutes</option>
+              <option>Dernières 24h</option>
+              <option>7 derniers jours</option>
+              <option>30 derniers jours</option>
+            </select>
+          </div>
+          <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Appliquer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card-body">
+      {% include 'partials/application_card.html' %}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Application status change
+  $('.application-status').change(function() {
+    const applicationId = $(this).data('application-id');
+    const newStatus = $(this).val();
+    
+    // Show loading
+    const card = $(this).closest('.application-card');
+    card.addClass('loading');
+    
+    // Simulate API call
+    setTimeout(() => {
+      card.removeClass('loading');
+      
+      // Update status badge
+      const badge = card.find('.status-badge');
+      badge.removeClass('bg-secondary bg-warning bg-success bg-danger');
+      
+      if (newStatus === 'pending') {
+        badge.addClass('bg-secondary').text('En attente');
+      } else if (newStatus === 'reviewed') {
+        badge.addClass('bg-warning').text('En revue');
+      } else if (newStatus === 'accepted') {
+        badge.addClass('bg-success').text('Accepté');
+      } else if (newStatus === 'rejected') {
+        badge.addClass('bg-danger').text('Rejeté');
+      }
+      
+      // Show success message
+      toastr.success('Statut mis à jour avec succès');
+    }, 800);
+  });
+  
+  // Rating stars hover effect
+  $('.rating-star').hover(
+    function() {
+      const rating = $(this).data('rating');
+      $(this).parent().find('.rating-star').each(function(index) {
+        if (index < rating) {
+          $(this).addClass('hover');
+        } else {
+          $(this).removeClass('hover');
+        }
+      });
+    },
+    function() {
+      $(this).parent().find('.rating-star').removeClass('hover');
+    }
+  );
+});
+</script>
+{% endblock %}

@@ -1,0 +1,366 @@
+{% extends "dashboard_client.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Profil de l'entreprise</h1>
+    <button class="btn btn-success" id="editProfileBtn">
+      <i class="fas fa-edit me-1"></i> Modifier
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-column align-items-center">
+          <div class="company-logo mb-3">
+            <img src="https://via.placeholder.com/150" class="rounded-circle" width="150" height="150" alt="Logo entreprise">
+          </div>
+          <h4 class="text-center mb-0">{{ request.user.company_name }}</h4>
+        </div>
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <a href="#" class="text-primary"><i class="fas fa-globe me-2"></i>www.votresite.com</a>
+          </div>
+          <div class="mb-3">
+            <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i>Paris, France</p>
+            <p class="mb-1"><i class="fas fa-phone me-2"></i>+33 1 23 45 67 89</p>
+            <p class="mb-0"><i class="fas fa-envelope me-2"></i>contact@entreprise.com</p>
+          </div>
+          <hr>
+          <h5 class="mb-3">Réseaux sociaux</h5>
+          <div class="social-links">
+            <a href="#" class="text-primary me-3"><i class="fab fa-linkedin fa-2x"></i></a>
+            <a href="#" class="text-primary me-3"><i class="fab fa-twitter fa-2x"></i></a>
+            <a href="#" class="text-primary me-3"><i class="fab fa-facebook fa-2x"></i></a>
+            <a href="#" class="text-primary"><i class="fab fa-instagram fa-2x"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">À propos</h6>
+        </div>
+        <div class="card-body">
+          <p>Notre entreprise est spécialisée dans la vente de produits écologiques depuis 2015. Nous nous engageons à offrir des solutions durables pour un mode de vie plus respectueux de l'environnement.</p>
+          <p>Avec une équipe de 25 personnes passionnées, nous avons déjà servi plus de 10 000 clients satisfaits à travers la France et l'Europe.</p>
+        </div>
+      </div>
+
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-bold text-primary">Projets récents</h6>
+          <a href="#" class="btn btn-sm btn-outline-primary">Voir tout</a>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Projet</th>
+                  <th>Statut</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Développement site e-commerce</td>
+                  <td><span class="badge bg-success">En cours</span></td>
+                  <td>15/06/2023</td>
+                </tr>
+                <tr>
+                  <td>Design logo entreprise</td>
+                  <td><span class="badge bg-secondary">Terminé</span></td>
+                  <td>30/05/2023</td>
+                </tr>
+                <tr>
+                  <td>Rédaction articles de blog</td>
+                  <td><span class="badge bg-info">En revue</span></td>
+                  <td>10/06/2023</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Équipe</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="team-member text-center">
+                <img src="https://randomuser.me/api/portraits/men/41.jpg" class="rounded-circle mb-3" width="80" height="80" alt="Team member">
+                <h5>Pierre Martin</h5>
+                <p class="text-muted">Directeur Général</p>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="team-member text-center">
+                <img src="https://randomuser.me/api/portraits/women/63.jpg" class="rounded-circle mb-3" width="80" height="80" alt="Team member">
+                <h5>Sophie Dubois</h5>
+                <p class="text-muted">Responsable Marketing</p>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="team-member text-center">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle mb-3" width="80" height="80" alt="Team member">
+                <h5>Thomas Leroy</h5>
+                <p class="text-muted">Responsable Technique</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProfileModalLabel">Modifier le profil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="companyName" class="form-label">Nom de l'entreprise *</label>
+                <input type="text" class="form-control" id="companyName" value="{{ request.user.company_name }}" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="sector" class="form-label">Secteur d'activité *</label>
+                <select class="form-select" id="sector" required>
+                  <option value="">Sélectionnez</option>
+                  <option selected>Commerce électronique</option>
+                  <option>Technologie</option>
+                  <option>Mode</option>
+                  <option>Alimentation</option>
+                  <option>Services</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="companyDescription" class="form-label">Description *</label>
+            <textarea class="form-control" id="companyDescription" rows="4" required>Notre entreprise est spécialisée dans la vente de produits écologiques depuis 2015. Nous nous engageons à offrir des solutions durables pour un mode de vie plus respectueux de l'environnement.</textarea>
+          </div>
+
+          <div class="row mb-4">
+                        <div class="col-md-6">
+              <div class="form-group">
+                <label for="website" class="form-label">Site web</label>
+                <input type="url" class="form-control" id="website" value="https://www.masociete.com">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="foundingDate" class="form-label">Date de création</label>
+                <input type="date" class="form-control" id="foundingDate" value="2015-01-15">
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone" class="form-label">Téléphone</label>
+                <input type="tel" class="form-control" id="phone" value="+33 1 23 45 67 89">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email" class="form-label">Email *</label>
+                <input type="email" class="form-control" id="email" value="contact@entreprise.com" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="address" class="form-label">Adresse</label>
+            <textarea class="form-control" id="address" rows="2">123 Rue de Paris, 75001 Paris, France</textarea>
+          </div>
+
+          <h5 class="mb-3">Réseaux sociaux</h5>
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
+                <input type="text" class="form-control" placeholder="Lien LinkedIn" value="linkedin.com/company/masociete">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fab fa-twitter"></i></span>
+                <input type="text" class="form-control" placeholder="Lien Twitter" value="twitter.com/masociete">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fab fa-facebook"></i></span>
+                <input type="text" class="form-control" placeholder="Lien Facebook" value="facebook.com/masociete">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fab fa-instagram"></i></span>
+                <input type="text" class="form-control" placeholder="Lien Instagram" value="instagram.com/masociete">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="logoUpload" class="form-label">Logo de l'entreprise</label>
+            <input type="file" class="form-control" id="logoUpload" accept="image/*">
+            <div class="form-text">Formats acceptés: JPG, PNG (max 2MB)</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-success" id="saveProfileChanges">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.company-logo {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.company-logo img {
+  transition: all 0.3s;
+}
+
+.company-logo:hover img {
+  opacity: 0.8;
+}
+
+.company-logo:hover::after {
+  content: 'Changer';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background-color: rgba(0,0,0,0.7);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.social-links a {
+  transition: transform 0.3s;
+}
+
+.social-links a:hover {
+  transform: translateY(-3px);
+}
+
+.team-member img {
+  transition: all 0.3s;
+  border: 3px solid #e9ecef;
+}
+
+.team-member:hover img {
+  transform: scale(1.05);
+  border-color: #4e73df;
+}
+
+.input-group-text {
+  width: 40px;
+  justify-content: center;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Edit profile button
+  const editProfileBtn = document.getElementById('editProfileBtn');
+  editProfileBtn.addEventListener('click', function() {
+    $('#editProfileModal').modal('show');
+  });
+
+  // Logo upload preview
+  const logoUpload = document.getElementById('logoUpload');
+  const companyLogo = document.querySelector('.company-logo img');
+  
+  logoUpload.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (file.size > 2 * 1024 * 1024) {
+        toastr.error('Le fichier est trop volumineux (max 2MB)');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        companyLogo.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Save profile changes
+  document.getElementById('saveProfileChanges').addEventListener('click', function() {
+    // Validate form
+    const companyName = document.getElementById('companyName').value;
+    const sector = document.getElementById('sector').value;
+    const companyDescription = document.getElementById('companyDescription').value;
+    
+    if (!companyName || !sector || !companyDescription) {
+      toastr.error('Veuillez remplir tous les champs obligatoires');
+      return;
+    }
+    
+    // Update profile information
+    document.querySelector('.card-header h4').textContent = companyName;
+    document.querySelector('.card-body p:first-of-type').textContent = companyDescription;
+    
+    // Update contact info
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+    const website = document.getElementById('website').value;
+    
+    if (phone) document.querySelector('.fa-phone').nextSibling.textContent = ' ' + phone;
+    if (email) document.querySelector('.fa-envelope').nextSibling.textContent = ' ' + email;
+    if (address) document.querySelector('.fa-map-marker-alt').nextSibling.textContent = ' ' + address;
+    if (website) document.querySelector('.fa-globe').nextSibling.textContent = ' ' + website;
+    
+    // Close modal
+    $('#editProfileModal').modal('hide');
+    toastr.success('Profil mis à jour avec succès');
+  });
+
+  // Team member hover effect
+  const teamMembers = document.querySelectorAll('.team-member');
+  teamMembers.forEach(member => {
+    member.addEventListener('mouseenter', function() {
+      this.querySelector('img').style.transform = 'scale(1.05)';
+      this.querySelector('img').style.borderColor = '#4e73df';
+    });
+    member.addEventListener('mouseleave', function() {
+      this.querySelector('img').style.transform = '';
+      this.querySelector('img').style.borderColor = '#e9ecef';
+    });
+  });
+});
+</script>
+{% endblock %}

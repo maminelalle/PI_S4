@@ -1,0 +1,170 @@
+{% extends "dashboard_client.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Évaluations reçues</h1>
+    <div class="d-flex align-items-center">
+      <div class="me-3 text-center">
+        <div class="rating-large mb-1">
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star-half-alt text-warning"></i>
+        </div>
+        <span class="text-muted">Moyenne basée sur 12 évaluations</span>
+      </div>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#leaveReviewModal">
+        <i class="fas fa-plus me-1"></i> Laisser une évaluation
+      </button>
+    </div>
+  </div>
+
+  {% include 'partials/review_card.html' %}
+</div>
+
+<!-- Leave Review Modal -->
+<div class="modal fade" id="leaveReviewModal" tabindex="-1" aria-labelledby="leaveReviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="leaveReviewModalLabel">Évaluer un freelancer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="reviewForm">
+          <div class="mb-3">
+            <label for="freelancerSelect" class="form-label">Freelancer *</label>
+            <select class="form-select" id="freelancerSelect" required>
+              <option value="">Sélectionnez un freelancer</option>
+              <option value="1">Jean Dupont - Développement site e-commerce</option>
+              <option value="2">Marie Lambert - Design logo entreprise</option>
+              <option value="3">Thomas Martin - Rédaction articles de blog</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Note *</label>
+            <div class="rating-input mb-2">
+              <i class="far fa-star rating-star" data-rating="1"></i>
+              <i class="far fa-star rating-star" data-rating="2"></i>
+              <i class="far fa-star rating-star" data-rating="3"></i>
+              <i class="far fa-star rating-star" data-rating="4"></i>
+              <i class="far fa-star rating-star" data-rating="5"></i>
+              <input type="hidden" id="ratingValue" name="rating" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="reviewTitle" class="form-label">Titre *</label>
+            <input type="text" class="form-control" id="reviewTitle" placeholder="Ex: Excellent travail !" required>
+          </div>
+          <div class="mb-3">
+            <label for="reviewText" class="form-label">Commentaire *</label>
+            <textarea class="form-control" id="reviewText" rows="4" required></textarea>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">Publier l'évaluation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.rating-large {
+  font-size: 1.5rem;
+}
+
+.rating-input {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.rating-input .rating-star {
+  transition: all 0.2s;
+}
+
+.rating-input .rating-star:hover,
+.rating-input .rating-star.hover {
+  color: #ffc107;
+}
+
+.modal-content {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#reviewForm .form-control, #reviewForm .form-select {
+  border-radius: 8px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Rating stars selection
+  let selectedRating = 0;
+  const ratingStars = document.querySelectorAll('.rating-star');
+  const ratingValue = document.getElementById('ratingValue');
+  
+  ratingStars.forEach(star => {
+    star.addEventListener('click', function() {
+      selectedRating = parseInt(this.getAttribute('data-rating'));
+      ratingValue.value = selectedRating;
+      
+      ratingStars.forEach((s, index) => {
+        if (index < selectedRating) {
+          s.classList.remove('far');
+          s.classList.add('fas');
+        } else {
+          s.classList.remove('fas');
+          s.classList.add('far');
+        }
+      });
+    });
+    
+    star.addEventListener('mouseover', function() {
+      const hoverRating = parseInt(this.getAttribute('data-rating'));
+      
+      ratingStars.forEach((s, index) => {
+        if (index < hoverRating) {
+          s.classList.add('hover');
+        } else {
+          s.classList.remove('hover');
+        }
+      });
+    });
+    
+    star.addEventListener('mouseout', function() {
+      ratingStars.forEach(s => {
+        s.classList.remove('hover');
+      });
+    });
+  });
+  
+  // Form submission
+  const reviewForm = document.getElementById('reviewForm');
+  reviewForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!selectedRating) {
+      toastr.error('Veuillez sélectionner une note');
+      return;
+    }
+    
+    toastr.success('Évaluation publiée avec succès');
+    $('#leaveReviewModal').modal('hide');
+    reviewForm.reset();
+    
+    // Reset stars
+    ratingStars.forEach(star => {
+      star.classList.remove('fas');
+      star.classList.add('far');
+    });
+    selectedRating = 0;
+    ratingValue.value = '';
+  });
+});
+</script>
+{% endblock %}
